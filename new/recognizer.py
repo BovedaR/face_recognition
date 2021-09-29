@@ -20,18 +20,18 @@ def recognize(pickle_file):
         _, frame = cam.read()
 
         face_encodings = face_recognition.face_encodings(frame, face_recognition.face_locations(frame))
-        if this_frame:
-            if face_encodings != []:
-                person = face_encodings[0]
-                for name, encoding in encodings.items():
+        if this_frame and face_encodings != []:
+            person = face_encodings[0]
+            for name, encoding in encodings.items():
+                if not people[name]:
                     matches = []
                     for e in encoding:
                         matches.append(face_recognition.compare_faces(e, person))
                     if matches.count([True]) >= 21 and name in list(people.keys()):
                         people[name] = True
+                
         print(people)
-
-        this_frame = not this_frame
+        #this_frame = not this_frame
 
         if cv2.waitKey(1) == 27: 
             break  # esc to quit

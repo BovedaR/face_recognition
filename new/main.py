@@ -6,7 +6,8 @@ def main():
     while True:
         if input("take video? (y/n)") == 'y':
             take(input("name: "))
-        break
+        else:
+            break
     if input("new train? (y/n)") == 'y':
         pickle_file = train()
     else:
