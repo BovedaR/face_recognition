@@ -5,7 +5,7 @@ import numpy as np
 
 def main(img:str) -> bool:
     nparr = np.fromstring(img, np.uint8)
-    image = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR) # cv2.IMREAD_COLOR in OpenCV 3.1
+    image = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
 
     face_locations = face_recognition.face_locations(image)
 
