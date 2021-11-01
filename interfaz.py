@@ -1,7 +1,5 @@
 from tkinter import *
-import tkinter
-import os
-import cv2 #tkinter show cb2 camera
+import tkinter, os, cv2, crop_image #tkinter show cb2 camera
 from PIL import Image, ImageTk
 
 ventana = Tk()
@@ -93,6 +91,7 @@ def CrearCarpeta(user):
 				
 				for i in range(50):
 					cv2.imwrite(user + "/" + user + "_" + str(i) + ".jpg", cv2.cvtColor(cap.read()[1],0))
+					crop_image.main(user + "/" + user + "_" + str(i) + ".jpg")
 					texterror.set("Creado con exito!")
 		else:
 			texterror.set("Error o carpeta ya creada")
