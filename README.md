@@ -5,3 +5,10 @@ pasos
 4. "entrenar" el modelo si no hay ninguno
 
 (por algun motivo el github no me deja subir carpetas vacias asi que si lo prueban creen una carpeta "/videos" y una "/trains" en /new)
+
+# interfaces
+Librerias:
+py -m pip install --upgrade Pillow
+python -m pip install --upgrade Pillow
+pip install opencv-python
+pip install tk
