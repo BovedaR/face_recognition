@@ -10,7 +10,13 @@ ventana.geometry("300x400")
 ventana.resizable(False, False)
 ventana.title('Alta de Usuarios')
 ventana.configure(bg='#006241')
-ventana.iconbitmap("Enigm.ico") # fd: tuve que comentar esto para que ande
+
+if os.name == 'nt':
+    ventana.iconbitmap("Enigm.ico")
+else:
+    # para linux ese .ico no sirve
+    # https://stackoverflow.com/questions/11176638/tkinter-tclerror-error-reading-bitmap-file
+    pass
 
 
 texterror = tkinter.StringVar()
