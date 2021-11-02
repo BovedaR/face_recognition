@@ -27,7 +27,7 @@ def recognize(pickle_file):
                     matches = []
                     for e in encoding:
                         matches.append(face_recognition.compare_faces(e, person))
-                    if matches.count([True]) >= 21 and name in list(people.keys()):
+                    if matches.count([True]) >= 7 and name in list(people.keys()):
                         people[name] = True
                 
         print(people)

@@ -1,6 +1,9 @@
 from tkinter import *
 import tkinter, os, cv2, crop_image #tkinter show cb2 camera
 from PIL import Image, ImageTk
+import face_recognition
+from utils import loading_bar
+import threading
 
 ventana = Tk()
 ventana.geometry("300x400")
@@ -50,61 +53,25 @@ def show_frames():
 	imgtk = ImageTk.PhotoImage(image = img)
 	label.imgtk = imgtk
 	label.configure(image=imgtk)
-	# Repeat after an interval to capture continiously
 	label.after(20, show_frames)
 
-def CrearCarpeta(user):	
-	try:
+def take(name):
+	out = cv2.VideoWriter(f'videos/{name}.avi', cv2.VideoWriter_fourcc(*'XVID'), 10, (320,320))
+	count = 0
+	l = loading_bar(10)
+	while count < 10:
+		_, frame = cap.read()
 
-		numeros = [0,1,2,3,4,5,6,7,8,9]
-		nombreUser = ""
-		completo = False
-		completoDNI = False
-		guionBajo = False
-		for i, letra in enumerate(user):
-			nombreUser = nombreUser + letra
-			if letra == "_":
-				if guionBajo == True:
-					break
-				else:
-					guionBajo = True
-					if nombreUser == "_":
-						break
-					completo = True
-					nombreUser = nombreUser.rstrip(nombreUser[-1])
-					if nombreUser.isalpha() == False:
-						break
-					else:
-						for x in numeros:
-							if nombreUser.find(str(x)) != -1:
-								completo = False
+		face = face_recognition.face_locations(frame)
+		if face  != []:
+			top, right, bottom, left = face[0]
 
-						nombreUser = ""
-
-			if i == (len(user) - 1):
-				if nombreUser.isdigit() == True:
-					completoDNI = True
-
-		if completo == True and completoDNI == True:
-				os.mkdir(user.lower())
-				texterror.set("")
-				
-				for i in range(50):
-					cv2.imwrite(user + "/" + user + "_" + str(i) + ".jpg", cv2.cvtColor(cap.read()[1],0))
-					crop_image.main(user + "/" + user + "_" + str(i) + ".jpg")
-					texterror.set("Creado con exito!")
-		else:
-			texterror.set("Error o carpeta ya creada")
-		
-		#txtBoxUser.delete(0, 'end')	
-		#txtBoxFoto.insert(0,user)
-		#falta crear si no existe, meter foto en carpeta si existe
-	except:
-		texterror.set("Error o carpeta ya creada")
-
+			out.write(cv2.resize(frame[top:bottom, left:right], (320,320)))
+			count+=1
+			l.add(1)
+			print(l, end='\r')
 
 show_frames()
-
 
 lblUser = tkinter.Label(ventana, text= "Nombre y Apellido:", font="Calibri 14 bold", bg='#006241', fg="#FFFFFF", padx=0, pady=20) 
 lblUser.grid(row=0, column=1)
@@ -112,10 +79,7 @@ lblUser.grid(row=0, column=1)
 txtBoxUser = tkinter.Entry(ventana, font="Calibri 14", width=25)
 txtBoxUser.grid(row=1, column=1,pady=(5,5))
 
-lblUserError = tkinter.Label(ventana, textvariable=texterror, font="Calibri 12 bold", fg="#FFFFFF", bg='#006241') 
-lblUserError.grid(row=2, column=1)
-
-btnUser = tkinter.Button(ventana, text="Tomar foto", font="Calibri 11 bold", fg="#FFFFFF", bg="#FF5733", width=30, borderwidth=5, command= lambda: CrearCarpeta(txtBoxUser.get()))
+btnUser = tkinter.Button(ventana, text="Tomar foto", font="Calibri 11 bold", fg="#FFFFFF", bg="#FF5733", width=30, borderwidth=5, command= lambda: take(txtBoxUser.get()))
 btnUser.grid(row=4, column=1, pady=(20,20))
 
 ventana.mainloop()
