@@ -10,7 +10,7 @@ ventana.geometry("300x400")
 ventana.resizable(False, False)
 ventana.title('Alta de Usuarios')
 ventana.configure(bg='#006241')
-ventana.iconbitmap("Enigm.ico")
+ventana.iconbitmap("Enigm.ico") # fd: tuve que comentar esto para que ande
 
 
 texterror = tkinter.StringVar()
@@ -37,9 +37,18 @@ ventana.geometry("+{}+{}".format(positionRight, positionDown))
 # Create a Label to capture the Video frames
 label =Label(ventana)
 label.grid(row=3, column=1)
-#cap= cv2.VideoCapture(0)
-#cap= cv2.VideoCapture(0, cv2.CAP_DSHOW)- Agregar esto sino se rompe
-cap= cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+
+cap = None
+
+if os.name == 'posix':
+    # linux
+    cap= cv2.VideoCapture(0)
+elif os.name == 'nt':
+    # windows
+    cap= cv2.VideoCapture(0, cv2.CAP_DSHOW)
+else:
+    assert False, "agregar el SO"
 
 cv2image = cv2
 
