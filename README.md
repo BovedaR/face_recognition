@@ -1,10 +1,8 @@
 pasos
 1. instalar los requirements
-2. ejecutar el main
-3. hacer videos en caso de q no haya
-4. "entrenar" el modelo si no hay ninguno
-
-(por algun motivo el github no me deja subir carpetas vacias asi que si lo prueban creen una carpeta "/videos" y una "/trains" en /new)
+2. ejecutar video_taker_interfaz.py para hacer los videos
+3. ejecutar trainter.py para crear el archivo con la información
+4. ejecutar recognizer.py 
 
 # interfaces
 Librerias:

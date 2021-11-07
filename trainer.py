@@ -24,4 +24,6 @@ def train(path="videos/"):
 
     file_name = datetime.now().strftime('%H%M%S%f')
     pickle.dump(encodings, open(f"trains/{file_name}", 'ab'))
-    return file_name
+
+if __name__ == "__main__":
+    train()
