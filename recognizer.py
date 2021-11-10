@@ -14,8 +14,11 @@ def recognize(pickle_file):
 
     dt = datetime.now()
     json_info = {"date": dt.strftime('%d/%m/%Y'), "time": dt.strftime('%H:%M:%S'), "alumnos": {person.split('.')[0]: False for person in encodings.keys()}}
-    with open("data/"+dt.strftime('%d-%m_%H-%M')+".json", 'w+') as fp:
-        json.dump(json_info, fp)
+    with open("data.json", 'r') as fp:
+        data = json.load(fp)
+    data.append(json_info)
+    with open("data.json", 'w') as fp: 
+        json.dump(data, fp)
 
     if not (cam.isOpened()):
         print("Could not open video device")
@@ -35,9 +38,17 @@ def recognize(pickle_file):
                     for e in encoding:
                         matches.append(face_recognition.compare_faces(e, person))
                     if matches.count([True]) >= 7 and name in list(json_info["alumnos"].keys()):
+                        """
                         json_info["alumnos"][name] = datetime.now().strftime('%H-%M')
-                        with open("data/"+dt.strftime('%d-%m_%H-%M')+".json", 'w+') as fp:
+                        with open("data.json", 'r') as fp:
+                            data = json.load(fp)
+                        data[].append(json_info)
+                        with open("data.json", 'w') as fp: 
+                            json.dump(data, fp)
+                        with open("data.json", 'w+') as fp:
                             json.dump(json_info, fp)
+                        """
+                        pass
         print(json_info["alumnos"])
 
         if cv2.waitKey(1) == 27: 
